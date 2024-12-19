@@ -5,17 +5,18 @@ namespace TicTacToe.Players;
 
 public interface IPlayer
 {
-    public Result<PlayerMove> GetNextMove();
     public char Icon { get; }
+    public Result<RandomPlayerMove> GetNextMove();
 }
-
 
 public abstract class Player : IPlayer
 {
     public abstract char Icon { get; }
 
-    public abstract Result<PlayerMove> GetNextMove();
+    public abstract Result<RandomPlayerMove> GetNextMove();
 
     public override string ToString()
-        => $"{this.Icon}";
+    {
+        return $"{Icon}";
+    }
 }

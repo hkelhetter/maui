@@ -1,10 +1,10 @@
 ﻿using FluentAssertions;
-using TicTacToe;
+using tictactoe.Players;
 using TicTacToe.Players;
 
 namespace tictactoeTest;
 
-public class PlayerMoveTest
+public class RandomPlayerMoveTest
 {
     [Fact]
     public void TestRandomPlayer()

@@ -1,5 +1,4 @@
-﻿using CSharpFunctionalExtensions;
-using TicTacToe.Display;
+﻿using TicTacToe.Display;
 using TicTacToe.Players;
 
 namespace TicTacToe.Boards;
@@ -15,40 +14,8 @@ public class Board
         this.display = display;
     }
 
-    public bool PlayMoveOnBoard(PlayerMove playerMoves, char currentPlayerIcon)
-    {
-        Cell? cell = GetCell(playerMoves.Row, playerMoves.Column);
-
-        if (cell == null || cell.Value == PlayerConstants.PlayerOneIcon || cell.Value == PlayerConstants.PlayerTwoIcon)
-            return false;
-
-        cell.UpdateValue(currentPlayerIcon);
-        return true;
-    }
-
-    public Maybe<string> IsGameOver(IPlayer currentPlayer)
-    {
-        if (IsGameBoardWin())
-        {
-            return Maybe.From($"Player {currentPlayer} has won the game !!!!");
-        }
-        if (IsGameBoardFull())
-        {
-            return Maybe.From($"it's a draw!");
-        }
-
-        return Maybe.None;
-    }
-
-    public void DisplayGameBoard()
-    {
-        display.Clear();
-        DisplayHeader();
-        DisplayBoard();
-    }
-
     private List<Cell> EmptyGrid =>
-        new List<Cell>()
+        new()
         {
             Cell.EmptyCell(1, 1),
             Cell.EmptyCell(1, 2),
@@ -58,8 +25,34 @@ public class Board
             Cell.EmptyCell(2, 3),
             Cell.EmptyCell(3, 1),
             Cell.EmptyCell(3, 2),
-            Cell.EmptyCell(3, 3),
+            Cell.EmptyCell(3, 3)
         };
+
+    public bool PlayMoveOnBoard(RandomPlayerMove randomPlayerMoves, char currentPlayerIcon)
+    {
+        var cell = GetCell(randomPlayerMoves.Row, randomPlayerMoves.Column);
+
+        if (cell == null || cell.Value == PlayerConstants.PlayerOneIcon || cell.Value == PlayerConstants.PlayerTwoIcon)
+            return false;
+
+        cell.UpdateValue(currentPlayerIcon);
+        return true;
+    }
+
+    public GameResult IsGameOver()
+    {
+        if (IsGameBoardWin()) return GameResult.WIN;
+        if (IsGameBoardFull()) return GameResult.DRAW;
+
+        return GameResult.NONE;
+    }
+
+    public void DisplayGameBoard()
+    {
+        display.Clear();
+        DisplayHeader();
+        DisplayBoard();
+    }
 
     private void DisplayHeader()
     {
@@ -70,13 +63,13 @@ public class Board
 
     private void DisplayBoard()
     {
-        display.WriteLine($"|-----|-----|-----|");
+        display.WriteLine("|-----|-----|-----|");
         DisplayGameBoardLine(1);
-        display.WriteLine($"|-----|-----|-----|");
+        display.WriteLine("|-----|-----|-----|");
         DisplayGameBoardLine(2);
-        display.WriteLine($"|-----|-----|-----|");
+        display.WriteLine("|-----|-----|-----|");
         DisplayGameBoardLine(3);
-        display.WriteLine($"|-----|-----|-----|");
+        display.WriteLine("|-----|-----|-----|");
     }
 
     private void DisplayGameBoardLine(int row)
@@ -85,38 +78,38 @@ public class Board
     }
 
     private char GetCellContent(int row, int column)
-        => GetCell(row, column)?.Value ?? ' ';
+    {
+        return GetCell(row, column)?.Value ?? ' ';
+    }
 
     private Cell? GetCell(int row, int column)
-        => grid
+    {
+        return grid
             .Where(cell => cell.Row == row)
             .Where(cell => cell.Column == column)
             .FirstOrDefault();
+    }
 
     private bool IsGameBoardWin()
     {
-        IEnumerable<IGrouping<int, Cell>> rows = grid
+        var rows = grid
             .GroupBy(cell => cell.Row);
 
         if (rows.Any(row =>
-            row.All(cell => cell.Value == PlayerConstants.PlayerOneIcon) ||
-            row.All(cell => cell.Value == PlayerConstants.PlayerTwoIcon)))
-        {
+                row.All(cell => cell.Value == PlayerConstants.PlayerOneIcon) ||
+                row.All(cell => cell.Value == PlayerConstants.PlayerTwoIcon)))
             return true;
-        }
 
-        IEnumerable<IGrouping<int, Cell>> columns = grid
+        var columns = grid
             .GroupBy(cell => cell.Column);
 
         if (columns.Any(column =>
-            column.All(cell => cell.Value == PlayerConstants.PlayerOneIcon) ||
-            column.All(cell => cell.Value == PlayerConstants.PlayerTwoIcon)))
-        {
+                column.All(cell => cell.Value == PlayerConstants.PlayerOneIcon) ||
+                column.All(cell => cell.Value == PlayerConstants.PlayerTwoIcon)))
             return true;
-        }
 
-        IEnumerable<Cell> firstDiagonal = grid.Where(c => c.Row == c.Column);
-        IEnumerable<Cell> secondDiagonal = grid.Where(c => c.Row + c.Column == 4);
+        var firstDiagonal = grid.Where(c => c.Row == c.Column);
+        var secondDiagonal = grid.Where(c => c.Row + c.Column == 4);
 
         var diagonals = new List<IEnumerable<Cell>>
         {
@@ -125,15 +118,15 @@ public class Board
         };
 
         if (diagonals.Any(diagonal =>
-            diagonal.All(cell => cell.Value == PlayerConstants.PlayerOneIcon) ||
-            diagonal.All(cell => cell.Value == PlayerConstants.PlayerTwoIcon)))
-        {
+                diagonal.All(cell => cell.Value == PlayerConstants.PlayerOneIcon) ||
+                diagonal.All(cell => cell.Value == PlayerConstants.PlayerTwoIcon)))
             return true;
-        }
 
         return false;
     }
 
     private bool IsGameBoardFull()
-        => grid.All(cell => cell.Value.HasValue);
+    {
+        return grid.All(cell => cell.Value.HasValue);
+    }
 }

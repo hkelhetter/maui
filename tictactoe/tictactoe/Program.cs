@@ -1,18 +1,25 @@
 ﻿using TicTacToe.Display;
+using tictactoe.Players;
 using TicTacToe.Players;
 
 namespace TicTacToe;
 
 public class Program
 {
+    public enum SelectPlayerChoices
+    {
+        HumanVsHuman = 1,
+        HumanVsRandom = 2,
+        RandomVsRandom = 3
+    }
 
-    static void Main(string[] args)
+    private static void Main(string[] args)
     {
         IDisplay display = new ConsoleDisplay();
 
         (IPlayer, IPlayer) players = SelectPlayers();
 
-        Game game = new Game(display, players.Item1, players.Item2);
+        var game = new Game(display, players.Item1, players.Item2);
 
         game.Play();
     }
@@ -24,7 +31,7 @@ public class Program
         Console.WriteLine("2. Human vs Random");
         Console.WriteLine("3. Random vs Random");
 
-        SelectPlayerChoices choice = SelectPlayerChoices.HumanVsHuman;
+        var choice = SelectPlayerChoices.HumanVsHuman;
         try
         {
             choice = (SelectPlayerChoices)int.Parse(Console.ReadLine());
@@ -35,18 +42,13 @@ public class Program
 
         return choice switch
         {
-            SelectPlayerChoices.HumanVsHuman => (new HumanPlayer(PlayerConstants.PlayerOneIcon), new HumanPlayer(PlayerConstants.PlayerTwoIcon)),
-            SelectPlayerChoices.HumanVsRandom => (new HumanPlayer(PlayerConstants.PlayerOneIcon), new RandomPlayer(PlayerConstants.PlayerTwoIcon)),
-            SelectPlayerChoices.RandomVsRandom => (new RandomPlayer(PlayerConstants.PlayerOneIcon), new RandomPlayer(PlayerConstants.PlayerTwoIcon)),
+            SelectPlayerChoices.HumanVsHuman => (new HumanPlayer(PlayerConstants.PlayerOneIcon),
+                new HumanPlayer(PlayerConstants.PlayerTwoIcon)),
+            SelectPlayerChoices.HumanVsRandom => (new HumanPlayer(PlayerConstants.PlayerOneIcon),
+                new RandomPlayer(PlayerConstants.PlayerTwoIcon)),
+            SelectPlayerChoices.RandomVsRandom => (new RandomPlayer(PlayerConstants.PlayerOneIcon),
+                new RandomPlayer(PlayerConstants.PlayerTwoIcon)),
             _ => (new HumanPlayer(PlayerConstants.PlayerOneIcon), new HumanPlayer(PlayerConstants.PlayerTwoIcon))
         };
-    }
-
-    public enum SelectPlayerChoices
-    {
-        HumanVsHuman = 1,
-        HumanVsRandom = 2,
-        RandomVsRandom = 3,
-
     }
 }

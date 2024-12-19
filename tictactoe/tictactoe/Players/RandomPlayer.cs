@@ -2,18 +2,19 @@
 using TicTacToe.Boards;
 using TicTacToe.Players;
 
-namespace TicTacToe;
+namespace tictactoe.Players;
 
 public class RandomPlayer : Player
 {
-    public override char Icon { get; }
-
     public RandomPlayer(char icon)
     {
-        this.Icon = icon;
+        Icon = icon;
     }
 
-    public override Result<PlayerMove> GetNextMove()
-        => PlayerMove.Random;
+    public override char Icon { get; }
 
+    public override Result<RandomPlayerMove> GetNextMove()
+    {
+        return RandomPlayerMove.Random;
+    }
 }
