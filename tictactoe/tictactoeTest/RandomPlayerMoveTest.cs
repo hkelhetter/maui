@@ -10,8 +10,8 @@ public class RandomPlayerMoveTest
     public async void TestRandomPlayer()
     {
         var player = new RandomPlayer(PlayerConstants.PlayerOneIcon);
-
-        var move = await player.GetNextMove();
+        CancellationTokenSource cancellationTokenSource = new();
+        var move = await player.GetNextMove(cancellationTokenSource);
 
         move.IsSuccess.Should().BeTrue();
         move.Value.Row.Should().BeInRange(1, 3);

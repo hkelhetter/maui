@@ -54,7 +54,7 @@ public class FakePlayer : Player
 
     public override char Icon { get; }
 
-    public override async Task<Result<RandomPlayerMove>> GetNextMove()
+    public override async Task<Result<RandomPlayerMove>> GetNextMove(CancellationTokenSource cancellationTokenSource)
     {
         return moves.Dequeue();
     }
