@@ -53,7 +53,7 @@ public class Board
             {
                 while (cancellationTokenSource.Token.IsCancellationRequested is false)
                 {
-                    DisplayBoard();
+                    DisplayGameBoard();
                     Thread.Sleep(100);
                 }
             }
