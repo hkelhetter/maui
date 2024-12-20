@@ -1,5 +1,6 @@
 ﻿using TicTacToe.Boards;
 using TicTacToe.Display;
+using tictactoe.Players;
 using TicTacToe.Players;
 
 namespace TicTacToe;
@@ -22,15 +23,17 @@ public class Game
         this.display = display;
     }
 
-    public IPlayer currentPlayer { get; private set; }
+    private IPlayer currentPlayer { get; set; }
 
-    public IPlayer Play()
+    public async Task<IPlayer> Play()
     {
+        var cancellationTokenSource = new CancellationTokenSource();
         board.DisplayGameBoard();
 
         while (true)
         {
-            var playerMoves = currentPlayer.GetNextMove();
+            if (currentPlayer is RandomPlayer) board.DisplayGameBoardLoop(cancellationTokenSource);
+            var playerMoves = await currentPlayer.GetNextMove(cancellationTokenSource);
             if (playerMoves.IsFailure)
             {
                 display.WriteLine(playerMoves.Error);

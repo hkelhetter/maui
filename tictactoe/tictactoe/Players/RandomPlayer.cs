@@ -13,8 +13,10 @@ public class RandomPlayer : Player
 
     public override char Icon { get; }
 
-    public override Result<RandomPlayerMove> GetNextMove()
+    public override async Task<Result<RandomPlayerMove>> GetNextMove(CancellationTokenSource cancellationTokenSource)
     {
+        Thread.Sleep(500);
+        await cancellationTokenSource.CancelAsync();
         return RandomPlayerMove.Random;
     }
 }

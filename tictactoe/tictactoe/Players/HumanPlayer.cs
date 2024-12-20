@@ -12,12 +12,12 @@ public class HumanPlayer : Player
 
     public override char Icon { get; }
 
-    public override Result<RandomPlayerMove> GetNextMove()
+    public override async Task<Result<RandomPlayerMove>> GetNextMove(CancellationTokenSource cancellationTokenSource)
     {
         Console.WriteLine($"Player {Icon} - Enter row (1-3) and column (1-3), separated by a space");
         var input = Console.ReadLine();
 
-        string[]? splittedInput = input?.Split(' ');
+        var splittedInput = input?.Split(' ');
 
         if (int.TryParse(splittedInput?[0], out var targetRow) is false ||
             targetRow < 1 || targetRow > 3)

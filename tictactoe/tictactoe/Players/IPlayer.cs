@@ -6,14 +6,14 @@ namespace TicTacToe.Players;
 public interface IPlayer
 {
     public char Icon { get; }
-    public Result<RandomPlayerMove> GetNextMove();
+    public Task<Result<RandomPlayerMove>> GetNextMove(CancellationTokenSource cancellationTokenSource);
 }
 
 public abstract class Player : IPlayer
 {
     public abstract char Icon { get; }
 
-    public abstract Result<RandomPlayerMove> GetNextMove();
+    public abstract Task<Result<RandomPlayerMove>> GetNextMove(CancellationTokenSource cancellationTokenSource);
 
     public override string ToString()
     {

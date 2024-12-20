@@ -47,11 +47,25 @@ public class Board
         return GameResult.NONE;
     }
 
+    public void DisplayGameBoardLoop(CancellationTokenSource cancellationTokenSource)
+    {
+        Task.Run(() =>
+            {
+                while (cancellationTokenSource.Token.IsCancellationRequested is false)
+                {
+                    DisplayBoard();
+                    Thread.Sleep(1000);
+                }
+            }
+        );
+    }
+
     public void DisplayGameBoard()
     {
         display.Clear();
         DisplayHeader();
         DisplayBoard();
+        DisplayPetitsPoints();
     }
 
     private void DisplayHeader()
@@ -70,6 +84,18 @@ public class Board
         display.WriteLine("|-----|-----|-----|");
         DisplayGameBoardLine(3);
         display.WriteLine("|-----|-----|-----|");
+    }
+
+    private void DisplayPetitsPoints()
+    {
+        display.WriteLine(".");
+        Thread.Sleep(200);
+
+        display.WriteLine("..");
+        Thread.Sleep(200);
+
+        display.WriteLine("...");
+        Thread.Sleep(200);
     }
 
     private void DisplayGameBoardLine(int row)

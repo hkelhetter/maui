@@ -7,11 +7,11 @@ namespace tictactoeTest;
 public class RandomPlayerMoveTest
 {
     [Fact]
-    public void TestRandomPlayer()
+    public async void TestRandomPlayer()
     {
         var player = new RandomPlayer(PlayerConstants.PlayerOneIcon);
 
-        var move = player.GetNextMove();
+        var move = await player.GetNextMove();
 
         move.IsSuccess.Should().BeTrue();
         move.Value.Row.Should().BeInRange(1, 3);
