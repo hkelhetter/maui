@@ -16,7 +16,7 @@ public class GameResultTest
         var player2 = new RandomPlayer(PlayerConstants.PlayerTwoIcon);
         var game = new Game(display, player, player2);
 
-        var res = game.Play();
+        var res = game.Play().Result;
 
         res.Should().BeOneOf(null, player, player2);
     }

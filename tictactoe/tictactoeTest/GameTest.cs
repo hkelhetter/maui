@@ -23,7 +23,7 @@ public class GameTest
         var game = new Game(new DebugDisplay(), fakePlayer1, fakePlayer2);
 
         // Act
-        var expectedWinner = game.Play();
+        var expectedWinner = game.Play().Result;
         //GameResult actualGameResult = game.Play();
 
         // Assert
