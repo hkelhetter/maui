@@ -54,7 +54,7 @@ public class Board
                 while (cancellationTokenSource.Token.IsCancellationRequested is false)
                 {
                     DisplayBoard();
-                    Thread.Sleep(1000);
+                    Thread.Sleep(100);
                 }
             }
         );
@@ -89,13 +89,13 @@ public class Board
     private void DisplayPetitsPoints()
     {
         display.WriteLine(".");
-        Thread.Sleep(200);
+        Thread.Sleep(100);
 
         display.WriteLine("..");
-        Thread.Sleep(200);
+        Thread.Sleep(100);
 
         display.WriteLine("...");
-        Thread.Sleep(200);
+        Thread.Sleep(100);
     }
 
     private void DisplayGameBoardLine(int row)

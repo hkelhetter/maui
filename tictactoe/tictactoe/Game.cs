@@ -27,11 +27,11 @@ public class Game
 
     public async Task<IPlayer> Play()
     {
-        var cancellationTokenSource = new CancellationTokenSource();
         board.DisplayGameBoard();
 
         while (true)
         {
+            var cancellationTokenSource = new CancellationTokenSource();
             if (currentPlayer is RandomPlayer) board.DisplayGameBoardLoop(cancellationTokenSource);
             var playerMoves = await currentPlayer.GetNextMove(cancellationTokenSource);
             if (playerMoves.IsFailure)
